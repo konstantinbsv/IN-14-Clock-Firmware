@@ -5,4 +5,8 @@
  *      Author: Konstantin
  */
 
+#include "shift_register.h"
 
+void clearLatch() {
+
+}

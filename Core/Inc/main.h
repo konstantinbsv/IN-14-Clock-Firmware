@@ -66,10 +66,6 @@ void Error_Handler(void);
 #define LED_B_GPIO_Port GPIOA
 #define LATCH_ENABLE_Pin GPIO_PIN_4
 #define LATCH_ENABLE_GPIO_Port GPIOA
-#define CLK_Pin GPIO_PIN_5
-#define CLK_GPIO_Port GPIOA
-#define DATA_Pin GPIO_PIN_7
-#define DATA_GPIO_Port GPIOA
 #define BUZZER_Pin GPIO_PIN_11
 #define BUZZER_GPIO_Port GPIOB
 #define BLANK_Pin GPIO_PIN_8
