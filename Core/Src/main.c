@@ -96,7 +96,7 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
-  for (uint8_t = 0; i < 999999; i++) {
+  for (uint8_t i = 0; i < 999999; i++) {
 	  outputToDisplay(i, i % 2, i % 2);
   }
 
