@@ -20,21 +20,31 @@ HAL_StatusTypeDef InitializeSPI (SPI_HandleTypeDef *_spi_handle) {
 	return spi_handle != NULL ? HAL_OK : HAL_ERROR;
 }
 
-HAL_StatusTypeDef outputToDisplay(uint8_t number, bool top_separator_on, bool bottom_separator_on) {
+HAL_StatusTypeDef outputToDisplay (	uint32_t number,
+									bool left_dp_on,
+									bool right_dp_on,
+									bool top_sepr_on,
+									bool btm_sepr_on)
+{
 	assert_param(number >=0 || number <= 999999); // from 00 00 00 to 99 99 99
 	// assert_param(second_pair >=0 || second_pair <= 10);
 	// assert_param(third_pair >=0 || third_pair <= 10);
 
 	uint64_t output_uint = 0b0;
 	for (uint8_t i = 0; i < DIGIT_OUTPUTS; i++) {
-		uint8_t digit = number % 10; 				// extract least significant digit from input number
-		output_uint |= 1 << DIGIT_INDEX[i][digit];	// OR with 64bit output uint
-		number /= 10;								// remove least significant digit from input number
+		uint8_t digit = number % 10; 							// extract least significant digit from input number
+		output_uint |= (uint64_t) 1 << DIGIT_INDEX[i][digit];	// OR with 64bit output uint
+		number /= 10;											// remove least significant digit from input number
 	}
 
-	uint8_t output_array[LATCH_BYTES];
+	output_uint |= (uint64_t)left_dp_on  	<< SEPARATOR_INDEX[LEFT_DP];
+	output_uint |= right_dp_on 	<< SEPARATOR_INDEX[RIGHT_DP];
+	output_uint |= top_sepr_on  << SEPARATOR_INDEX[TOP_SEPR];
+	output_uint |= btm_sepr_on  << SEPARATOR_INDEX[BTM_SEPR];
+
+	uint8_t output_array[LATCH_BYTES] = {0};
 	for (uint8_t i = 0; i < LATCH_BYTES; i++) {
-			output_array[i] = output_uint | 0xFF;	// reverses and separates uint into an array for SPI transmission
+			output_array[LATCH_BYTES - i - 1] = output_uint & 0xFF;	// reverses and separates uint into an array for SPI transmission
 			output_uint /= (0xFF + 1);				// remove last 8 bits from output number
 	}
 
