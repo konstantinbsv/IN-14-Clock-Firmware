@@ -19,6 +19,7 @@
 #define LATCH_OUTPUTS 	64 					// total number of latch outputs
 #define LATCH_BYTES 	(LATCH_OUTPUTS / 8)	// number of bytes to completely define all latch output
 #define DIGIT_OUTPUTS 	6  					// six IN-14 tubes each displaying one digit at a time
+#define SEPR_OUTPUTS	4					// number of separator outputs
 
 							   	   	   	   	  // 0    1   2   3   4   5   6   7   8   9
 const static uint8_t DIGIT_INDEX[6][10] = { 	{1,  10,  9,  8,  7,  6,  5,  4,  3,  2}, 	// ones
@@ -31,9 +32,16 @@ const static uint8_t DIGIT_INDEX[6][10] = { 	{1,  10,  9,  8,  7,  6,  5,  4,  3
 
 const static uint8_t SEPARATOR_INDEX[4] = {63, 0, 21, 22}; // left decimal point, right decimal point, top separator, bottom separator
 
+enum {
+	LEFT_DP 	= 0,
+	RIGHT_DP 	= 1,
+	TOP_SEPR 	= 2,
+	BTM_SEPR 	= 3
+};
+
 /* Function Prototypes */
 HAL_StatusTypeDef InitializeSPI (SPI_HandleTypeDef *_spi_handle);
-HAL_StatusTypeDef outputToDisplay(uint8_t number, bool top_separator_on, bool bottom_separator_on);
+HAL_StatusTypeDef outputToDisplay(	uint32_t number, bool left_dp_on, bool right_dp_on, bool top_sepr_on, bool bottom_sepr_on);
 HAL_StatusTypeDef writeToLatch(uint8_t data[]);
 HAL_StatusTypeDef clearShiftRegisters();
 void loadLatches();
