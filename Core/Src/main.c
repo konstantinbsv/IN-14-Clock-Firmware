@@ -96,8 +96,14 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
-  for (uint8_t i = 0; i < 999999; i++) {
-	  outputToDisplay(i, i % 2, i % 2);
+  clearShiftRegisters();
+  bool dp_on = false;
+  bool sepr_on = false;
+  for (uint32_t i = 0; i < 999999; i++) {
+	  if (i % 10 == 0) dp_on = !dp_on;
+	  if (i % 10 == 0) sepr_on = !sepr_on;
+	  outputToDisplay(i, dp_on, dp_on, sepr_on, sepr_on);
+	  HAL_Delay(100);
   }
 
   /* USER CODE END 2 */
