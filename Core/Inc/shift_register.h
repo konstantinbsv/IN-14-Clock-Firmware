@@ -26,7 +26,7 @@ const static uint8_t DIGIT_INDEX[6][10] = { 	{1,  10,  9,  8,  7,  6,  5,  4,  3
 												{11, 20, 19, 18, 17, 16, 15, 14, 13, 12}, 	// tens
 												{23, 32, 31, 30, 29, 28, 27, 26, 25, 24},	// hundreds
 												{33, 42, 41, 40, 39, 38, 37, 36, 35, 34},	// one_thousands
-												{43, 51, 51, 50, 49, 48, 47, 46, 45, 44},	// hundred_thousands
+												{43, 52, 51, 50, 49, 48, 47, 46, 45, 44},	// hundred_thousands
 												{53, 62, 61, 60, 59, 58, 57, 56, 55, 54}	// one_millions
 											};
 
@@ -38,9 +38,6 @@ enum {
 	TOP_SEPR 	= 2,
 	BTM_SEPR 	= 3
 };
-
-/* Variables */
-static bool sepr_on;
 
 /* Function Prototypes */
 HAL_StatusTypeDef InitializeSPI (SPI_HandleTypeDef *_spi_handle);
