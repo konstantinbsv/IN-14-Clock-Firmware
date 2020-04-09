@@ -24,7 +24,5 @@ RTC_TimeTypeDef GetTime();
 RTC_DateTypeDef GetDate();
 bool IsBackupLost();
 void SetAlarm();
-void HAL_RTCEx_RTCEventCallback(RTC_HandleTypeDef *hrtc);
-
 
 #endif /* INC_RTC_H_ */
