@@ -26,9 +26,7 @@ HAL_StatusTypeDef outputToDisplay (	uint32_t number,
 									bool top_sepr_on,
 									bool btm_sepr_on)
 {
-	assert_param(number >=0 || number <= 999999); // from 00 00 00 to 99 99 99
-	// assert_param(second_pair >=0 || second_pair <= 10);
-	// assert_param(third_pair >=0 || third_pair <= 10);
+	assert_param(number >=0 && number <= 999999); // from 00 00 00 to 99 99 99
 
 	uint64_t output_uint = 0b0;
 	for (uint8_t i = 0; i < DIGIT_OUTPUTS; i++) {
