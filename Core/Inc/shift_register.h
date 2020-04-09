@@ -39,9 +39,13 @@ enum {
 	BTM_SEPR 	= 3
 };
 
+/* Variables */
+static bool sepr_on;
+
 /* Function Prototypes */
 HAL_StatusTypeDef InitializeSPI (SPI_HandleTypeDef *_spi_handle);
 HAL_StatusTypeDef outputToDisplay(	uint32_t number, bool left_dp_on, bool right_dp_on, bool top_sepr_on, bool bottom_sepr_on);
+HAL_StatusTypeDef displayTime(RTC_TimeTypeDef sTime, bool blink_sepr);
 HAL_StatusTypeDef writeToLatch(uint8_t data[]);
 HAL_StatusTypeDef clearShiftRegisters();
 void cathodePoisoningPrevention(uint8_t cycles);
