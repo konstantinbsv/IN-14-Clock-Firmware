@@ -80,18 +80,12 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  InitializeSPI(&hspi1);
-  InitializeRTC(&hrtc);
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  if (IsBackupLost()) {
-	  SetTime(22, 00, 30);
-	  SetDate(RTC_WEEKDAY_WEDNESDAY, RTC_MONTH_APRIL, 8, 20);
-  }
 
   /* USER CODE END SysInit */
 
@@ -100,15 +94,21 @@ int main(void)
   // MX_RTC_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+  InitializeSPI(&hspi1);
+  InitializeRTC(&hrtc);		// this needs to be called after SystemClock_Config()
+
+  if (IsBackupLost()) {
+	  SetTime(10, 45, 00);
+	  SetDate(RTC_WEEKDAY_THURSDAY, RTC_MONTH_APRIL, 9, 20);
+  }
 
   clearShiftRegisters();
-  cathodePoisoningPrevention(50);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (0) {
+  while (1) {
 
     /* USER CODE END WHILE */
 
@@ -184,7 +184,7 @@ static void MX_RTC_Init(void)
   */
   hrtc.Instance = RTC;
   hrtc.Init.AsynchPrediv = RTC_AUTO_1_SECOND;
-  hrtc.Init.OutPut = RTC_OUTPUTSOURCE_ALARM;
+  hrtc.Init.OutPut = RTC_OUTPUTSOURCE_NONE;
   if (HAL_RTC_Init(&hrtc) != HAL_OK)
   {
     Error_Handler();
@@ -304,6 +304,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_RTCEx_RTCEventCallback(RTC_HandleTypeDef *hrtc)
+{
+	displayTime(GetTime(), false);
+}
+
 
 /* USER CODE END 4 */
 
