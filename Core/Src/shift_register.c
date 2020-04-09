@@ -8,6 +8,7 @@
 #include "shift_register.h"
 
 static bool sepr_on = true;
+static uint8_t last_second;
 static SPI_HandleTypeDef *spi_handle = NULL;
 
 /**
@@ -53,7 +54,10 @@ HAL_StatusTypeDef outputToDisplay (	uint32_t number,
 HAL_StatusTypeDef displayTime(RTC_TimeTypeDef sTime, bool blink_sepr) {
 	uint32_t time_number  = (sTime.Hours * 10000) + (sTime.Minutes * 100) + (sTime.Seconds);
 
-	if (sTime.Seconds % 2) sepr_on = !sepr_on;
+	if (sTime.Seconds % 2 && sTime.Seconds != last_second) {
+		sepr_on = !sepr_on;
+		last_second = sTime.Seconds;
+	}
 
 	return outputToDisplay(time_number, false, false, sepr_on, sepr_on);
 }
