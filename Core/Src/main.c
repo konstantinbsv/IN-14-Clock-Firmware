@@ -81,40 +81,36 @@ int main(void)
 
   /* USER CODE BEGIN Init */
   InitializeSPI(&hspi1);
-
+  InitializeRTC(&hrtc);
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+  if (IsBackupLost()) {
+	  SetTime(21, 48, 0);
+	  SetDate(RTC_WEEKDAY_WEDNESDAY, RTC_MONTH_APRIL, 8, 20);
+  }
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_RTC_Init();
+  // MX_RTC_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
   clearShiftRegisters();
   cathodePoisoningPrevention(50);
 
-  bool dp_on = false;
-  bool sepr_on = false;
-  for (uint32_t i = 0; i < 999999; i++) {
-	  if (i % 10 == 0) dp_on = !dp_on;
-	  if (i % 10 == 0) sepr_on = !sepr_on;
-	  outputToDisplay(i, dp_on, dp_on, sepr_on, sepr_on);
-	  HAL_Delay(100);
-  }
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
-
+	  displayTime(GetTime(), true);
+	  HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -310,10 +306,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-//static void loadShiftRegisters(uint8_t data, uint8_t size){
-//	HAL_SPI_Transmit(&hspi1, data, 16, 500);
-//}
 
+void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
+{
+	displayTime(GetTime(), true);
+}
 
 /* USER CODE END 4 */
 
