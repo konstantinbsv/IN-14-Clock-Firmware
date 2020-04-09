@@ -97,6 +97,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   clearShiftRegisters();
+  cathodePoisoningPrevention(50);
+
   bool dp_on = false;
   bool sepr_on = false;
   for (uint32_t i = 0; i < 999999; i++) {
