@@ -17,6 +17,8 @@ HAL_StatusTypeDef InitializeRTC (RTC_HandleTypeDef *_rtc_handle) {
 	rtc_handle->Init.AsynchPrediv = RTC_AUTO_1_SECOND;
 	rtc_handle->Init.OutPut = RTC_OUTPUTSOURCE_ALARM;
 
+	HAL_RTCEx_SetSecond_IT(rtc_handle);	 // set first bit in RTC's CRH register to enable 1Hz RTC interrupts
+
 	return HAL_RTC_Init(rtc_handle);
 }
 
@@ -87,3 +89,9 @@ void SetAlarm() {
 	sAlarm.Alarm = RTC_ALARM_A;
 	HAL_RTC_SetAlarm_IT(rtc_handle, &sAlarm, RTC_FORMAT_BCD);
 }
+
+void HAL_RTCEx_RTCEventCallback(RTC_HandleTypeDef *hrtc)
+{
+	displayTime(GetTime(), true);
+}
+
