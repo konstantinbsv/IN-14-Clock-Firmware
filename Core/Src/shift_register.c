@@ -54,7 +54,7 @@ HAL_StatusTypeDef outputToDisplay (	uint32_t number,
 HAL_StatusTypeDef displayTime(RTC_TimeTypeDef sTime, bool blink_sepr) {
 	uint32_t time_number  = (sTime.Hours * 10000) + (sTime.Minutes * 100) + (sTime.Seconds);
 
-	if (sTime.Seconds % 2 && sTime.Seconds != last_second) {
+	if (sTime.Seconds != last_second && blink_sepr) {
 		sepr_on = !sepr_on;
 		last_second = sTime.Seconds;
 	}
