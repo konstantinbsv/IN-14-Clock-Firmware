@@ -89,7 +89,7 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
   if (IsBackupLost()) {
-	  SetTime(21, 48, 0);
+	  SetTime(22, 00, 30);
 	  SetDate(RTC_WEEKDAY_WEDNESDAY, RTC_MONTH_APRIL, 8, 20);
   }
 
@@ -108,15 +108,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1) {
-	  displayTime(GetTime(), true);
-	  HAL_Delay(100);
+  while (0) {
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-  /* USER CODE END 3 */
   }
+  /* USER CODE END 3 */
 }
 
 /**
@@ -306,11 +304,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
-{
-	displayTime(GetTime(), true);
-}
 
 /* USER CODE END 4 */
 
