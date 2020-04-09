@@ -44,6 +44,7 @@ HAL_StatusTypeDef InitializeSPI (SPI_HandleTypeDef *_spi_handle);
 HAL_StatusTypeDef outputToDisplay(	uint32_t number, bool left_dp_on, bool right_dp_on, bool top_sepr_on, bool bottom_sepr_on);
 HAL_StatusTypeDef writeToLatch(uint8_t data[]);
 HAL_StatusTypeDef clearShiftRegisters();
+void cathodePoisoningPrevention(uint8_t cycles);
 void loadLatches();
 
 #endif /* INC_SHIFT_REGISTER_H_ */

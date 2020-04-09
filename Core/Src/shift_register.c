@@ -64,7 +64,17 @@ HAL_StatusTypeDef clearShiftRegisters() {
 	return writeToLatch(zero_bits);
 }
 
+void cathodePoisoningPrevention(uint8_t cycles) {
+	bool dp_on = false;
+	bool sepr_on = false;
+	for (uint32_t i = 0; i < cycles; i++) {
+		if (i % 5 == 0) dp_on = !dp_on;
+		if (i % 5 == 0) sepr_on = !sepr_on;
 
+		outputToDisplay(111111 * (i % 10), dp_on, dp_on, sepr_on, !sepr_on);
+		HAL_Delay(100);
+	}
+}
 
 void loadLatches() {
 	HAL_GPIO_WritePin(LATCH_ENABLE_GPIO_Port, LATCH_ENABLE_Pin, GPIO_PIN_SET);
