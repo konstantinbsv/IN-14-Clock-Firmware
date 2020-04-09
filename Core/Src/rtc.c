@@ -25,7 +25,7 @@ HAL_StatusTypeDef InitializeRTC (RTC_HandleTypeDef *_rtc_handle) {
  */
 HAL_StatusTypeDef SetTime(uint8_t hours, uint8_t minutes, uint8_t seconds) {
 	assert_param(hours <= 23U);
-	assert_param(hours <= 59U);
+	assert_param(minutes <= 59U);
 	assert_param(seconds <= 59U);
 
 	RTC_TimeTypeDef sTime = {0};
@@ -36,7 +36,7 @@ HAL_StatusTypeDef SetTime(uint8_t hours, uint8_t minutes, uint8_t seconds) {
 
 	HAL_RTCEx_BKUPWrite(rtc_handle, RTC_BACKUP_REG, REG_CHECK_VAL);
 
-	return HAL_RTC_SetTime(rtc_handle, &sTime, RTC_FORMAT_BCD);
+	return HAL_RTC_SetTime(rtc_handle, &sTime, RTC_FORMAT_BIN);
 }
 
 /**
@@ -59,7 +59,7 @@ HAL_StatusTypeDef SetDate(	uint8_t week_day,
 	DateToUpdate.Date = date;
 	DateToUpdate.Year = year;
 
-	return HAL_RTC_SetDate(rtc_handle, &DateToUpdate, RTC_FORMAT_BCD);
+	return HAL_RTC_SetDate(rtc_handle, &DateToUpdate, RTC_FORMAT_BIN);
 
 }
 
@@ -81,6 +81,9 @@ bool IsBackupLost(){
 	return (HAL_RTCEx_BKUPRead(rtc_handle, RTC_BACKUP_REG) != REG_CHECK_VAL);
 }
 
-void EnableAlarm() {
+void SetAlarm() {
+	RTC_AlarmTypeDef sAlarm = {0};
 
+	sAlarm.Alarm = RTC_ALARM_A;
+	HAL_RTC_SetAlarm_IT(rtc_handle, &sAlarm, RTC_FORMAT_BCD);
 }
