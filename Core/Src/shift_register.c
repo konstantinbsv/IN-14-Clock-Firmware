@@ -67,7 +67,10 @@ HAL_StatusTypeDef writeToLatch(uint8_t data[]) {
 	// all outputs must be written to at once
 	assert_param(sizeof(data)/sizeof(data[0]) == LATCH_BYTES);
 
-	return HAL_SPI_Transmit(spi_handle, data, LATCH_BYTES, SPI_TIMEOUT);
+	HAL_StatusTypeDef tx_status = HAL_SPI_Transmit(spi_handle, data, LATCH_BYTES, SPI_TIMEOUT);
+	loadLatches();
+
+	return tx_status;
 }
 
 HAL_StatusTypeDef clearShiftRegisters() {
